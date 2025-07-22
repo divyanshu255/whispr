@@ -1,37 +1,36 @@
 # 🤖 Whispr – AI Math & Physics Chat App with Gemini
 
-Whispr is a smart chat app built with **React Native + Expo**, powered by **Google Gemini API**, and tailored for helping users with **math and physics** problems. It supports **LaTeX formula rendering** via MathJax inside a WebView, displaying textbook-style answers inside a sleek chat UI.
+**Whispr** is a smart chat app built with **React Native + Expo**, powered by **Google Gemini API**, and tailored to help users with **math and physics** problems. It features **LaTeX formula rendering** via MathJax in a WebView, giving users a clean, textbook-style experience.
 
 ---
 
 ## 📱 Features
 
-- 🤖 Google Gemini 1.5 Pro AI integration
-- 📐 Beautiful LaTeX rendering with MathJax
-- 💬 Chat interface with user/bot avatars
-- 🌙 Dark mode support (auto-detects)
-- 📲 APK-ready with proper build config
-- ✅ Built using Expo + React Native
+* 🤖 Gemini 1.5 Pro AI integration
+* 📀 Math formula support using MathJax
+* 💬 Chat interface with user/bot/error avatars
+* 🌙 Dark mode support (auto-detected)
+* 📲 Ready to build APK via EAS
+* ✅ Built with Expo SDK 50 and React Native
 
 ---
 
 ## 📂 Project Structure
 
+```
 whispr/
 ├── assets/
-│ └── images/logo.jpg # Used as icon & splash
+│   └── images/
+│       └── logo.jpg            # Used as icon and splash image
 ├── components/
-│ └── LatexRenderer.tsx # MathJax WebView renderer
+│   └── LatexRenderer.tsx      # Renders LaTeX using MathJax
 ├── screens/
-│ └── ChatScreen.tsx # Chat UI with Gemini
-├── app.config.ts # Expo config + .env support
-├── eas.json # EAS build config
-├── .env # API key
+│   └── ChatScreen.tsx         # Main chat UI with Gemini integration
+├── app.config.ts              # Expo + EAS + .env config
+├── eas.json                   # EAS build configuration
+├── .env                       # API key (not committed)
 └── README.md
-
-yaml
-Copy
-Edit
+```
 
 ---
 
@@ -41,46 +40,64 @@ Create a `.env` file:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
-This is injected into app.config.ts using:
+```
 
-ts
-Copy
-Edit
+The key is injected into `app.config.ts`:
+
+```ts
 import 'dotenv/config';
-🧠 How Math Rendering Works
-Gemini responses may include LaTeX like $$E=mc^2$$. These are parsed by:
+```
 
-ts
-Copy
-Edit
+---
+
+## 🧠 How LaTeX Rendering Works
+
+Gemini might return LaTeX math expressions like:
+
+```
+$$E = mc^2$$
+```
+
+These are parsed using:
+
+```ts
 const parts = text.split(/(\$\$[^$]+\$\$)/g);
-Then displayed using a WebView running MathJax:
+```
 
-html
-Copy
-Edit
+Then rendered inside `WebView` using MathJax:
+
+```html
 <div class="math">\\[ E = mc^2 \\]</div>
-✅ Output looks clean, centered, and big — like textbook math!
+```
 
-💬 ChatScreen.tsx Highlights
-Parses both plain text and LaTeX blocks
+This results in formulas being rendered:
 
-Avatars: 🧑 (user), 🤖 (Gemini), ⚠️ (error)
+* Centered
+* Scaled properly
+* Styled like textbooks
 
-Smooth scroll to latest message
+---
 
-Gemini is typing indicator (ActivityIndicator)
+## 💬 ChatScreen.tsx Highlights
 
-✏️ LatexRenderer.tsx
-tsx
-Copy
-Edit
+* Parses Gemini responses into text + math blocks
+* User messages use 🧑, Gemini responses use 🤖
+* Gemini typing indicator: `ActivityIndicator`
+* Uses `KeyboardAwareScrollView` and `SafeAreaView`
+* Smooth scroll-to-bottom on every new message
+
+---
+
+## ✏️ LatexRenderer.tsx Code
+
+```tsx
 import React from 'react';
 import { View, StyleSheet, useColorScheme } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 const LatexRenderer = ({ latex }) => {
   const colorScheme = useColorScheme();
+
   const html = `
     <!DOCTYPE html><html><head>
     <style>
@@ -95,21 +112,30 @@ const LatexRenderer = ({ latex }) => {
       <div class="math">\\[${latex}\\]</div>
     </body></html>
   `;
+
   return (
     <View style={{ width: '100%', minHeight: 60 }}>
-      <WebView source={{ html }} scrollEnabled={false} style={{ flex: 1, backgroundColor: 'transparent' }} />
+      <WebView
+        originWhitelist={['*']}
+        source={{ html }}
+        scrollEnabled={false}
+        style={{ flex: 1, backgroundColor: 'transparent' }}
+        javaScriptEnabled
+      />
     </View>
   );
 };
 
 export default LatexRenderer;
-⚙️ Build for Android (APK)
-To build an APK instead of AAB:
+```
 
-eas.json
-json
-Copy
-Edit
+---
+
+## ⚙️ Build for Android (APK)
+
+### Update `eas.json`
+
+```json
 {
   "cli": {
     "version": ">= 16.16.0"
@@ -123,15 +149,19 @@ Edit
     }
   }
 }
-Command
-bash
-Copy
-Edit
+```
+
+### Run APK build
+
+```bash
 eas build -p android --profile production
-🔧 app.config.ts (Updated for logo.jpg)
-ts
-Copy
-Edit
+```
+
+---
+
+## 🔧 app.config.ts
+
+```ts
 import 'dotenv/config';
 
 export default {
@@ -166,12 +196,36 @@ export default {
     }
   }
 };
-👨‍💻 Recruiter Summary
-I built an intelligent math & physics chat app using Google Gemini, React Native, and WebView-based LaTeX rendering. Users can chat with Gemini and receive real textbook-style answers, with formulas rendered cleanly. The UI is responsive, supports dark mode, and is deployable to Android as an APK.
+```
 
-📸 Screenshots
-Add here (optional)
-Chat with Gemini, Formula Render, Splash screen, etc.
+---
 
-📜 License
-MIT – Free to use, share, and modify.
+## 💼 Recruiter Summary
+
+> I created a cross-platform AI chat app using React Native + Gemini API, focused on helping users solve math and physics problems. It supports LaTeX rendering via MathJax inside a WebView, mimicking textbook-style output. The design is clean, responsive, and works well in both light and dark mode. The app is optimized for Android APK builds using EAS.
+
+---
+
+## 📸 Screenshots
+
+> *(Add your screenshots here)*
+
+* Splash screen with logo
+* Chat with formula rendering
+* Dark mode preview
+
+---
+
+## 📜 License
+
+MIT — Free to use, modify, and distribute.
+
+---
+
+## 😊 Author
+
+* Name: *Your Name Here*
+* GitHub: [yourgithub](https://github.com/yourgithub)
+* Email: [your@email.com](mailto:your@email.com)
+
+---
