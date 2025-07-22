@@ -206,16 +206,6 @@ export default {
 
 ---
 
-## 📸 Screenshots
-
-> *(Add your screenshots here)*
-
-* Splash screen with logo
-* Chat with formula rendering
-* Dark mode preview
-
----
-
 ## 📜 License
 
 MIT — Free to use, modify, and distribute.
@@ -224,8 +214,8 @@ MIT — Free to use, modify, and distribute.
 
 ## 😊 Author
 
-* Name: *Your Name Here*
-* GitHub: [yourgithub](https://github.com/yourgithub)
-* Email: [your@email.com](mailto:your@email.com)
+* Name: *Divyanshu Patel*
+
+* Email: [divyanshupatel01234@email.com](mailto:divyanshupatel01234@email.com)
 
 ---
